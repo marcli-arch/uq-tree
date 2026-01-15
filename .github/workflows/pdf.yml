@@ -1,0 +1,86 @@
+name: Build PDF
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+
+      - name: Create combined markdown
+        run: |
+          mkdir -p output
+          # Combine all markdown files in order
+          cat docs/introduction.md > output/paper.md
+          echo -e "\n\n" >> output/paper.md
+          cat docs/methodology.md >> output/paper.md
+          echo -e "\n\n" >> output/paper.md
+          cat docs/decision-tree.md >> output/paper.md
+          echo -e "\n\n" >> output/paper.md
+          cat docs/case-studies.md >> output/paper.md
+          echo -e "\n\n" >> output/paper.md
+          cat docs/conclusions.md >> output/paper.md
+          echo -e "\n\n" >> output/paper.md
+          cat docs/references.md >> output/paper.md
+
+      - name: Create metadata file
+        run: |
+          cat > output/metadata.yaml << 'EOF'
+          ---
+          title: "A Decision Tree for Practitioners Needing Uncertainty Quantification for Their Deep Learning Project"
+          author: "UQ Tree Contributors"
+          date: \today
+          geometry: margin=1in
+          fontsize: 11pt
+          documentclass: article
+          ---
+          EOF
+
+      - name: Convert Markdown to LaTeX
+        run: |
+          pandoc output/metadata.yaml output/paper.md \
+            -f markdown \
+            -t latex \
+            -o output/paper.tex \
+            --standalone
+
+      - name: Convert Markdown to PDF
+        run: |
+          pandoc output/metadata.yaml output/paper.md \
+            -f markdown \
+            -o output/paper.pdf \
+            --pdf-engine=pdflatex \
+            --variable geometry:margin=1in \
+            --variable fontsize=11pt
+
+      - name: Upload LaTeX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-latex
+          path: output/paper.tex
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-pdf
+          path: output/paper.pdf
+
+      - name: Upload combined markdown
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-markdown
+          path: output/paper.md
