@@ -24,18 +24,21 @@ jobs:
       - name: Create combined markdown
         run: |
           mkdir -p output
+          # Define the order of sections
+          SECTIONS=(
+            "introduction"
+            "methodology"
+            "decision-tree"
+            "case-studies"
+            "conclusions"
+            "references"
+          )
           # Combine all markdown files in order
-          cat docs/introduction.md > output/paper.md
-          echo -e "\n\n" >> output/paper.md
-          cat docs/methodology.md >> output/paper.md
-          echo -e "\n\n" >> output/paper.md
-          cat docs/decision-tree.md >> output/paper.md
-          echo -e "\n\n" >> output/paper.md
-          cat docs/case-studies.md >> output/paper.md
-          echo -e "\n\n" >> output/paper.md
-          cat docs/conclusions.md >> output/paper.md
-          echo -e "\n\n" >> output/paper.md
-          cat docs/references.md >> output/paper.md
+          > output/paper.md  # Create empty file
+          for section in "${SECTIONS[@]}"; do
+            cat "docs/${section}.md" >> output/paper.md
+            echo -e "\n\n" >> output/paper.md
+          done
 
       - name: Create metadata file
         run: |
