@@ -6,19 +6,19 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'UQ Decision Tree'
-copyright = '2026, UQ Tree Contributors'
-author = 'UQ Tree Contributors'
-release = '0.1.0'
+project = "UQ Decision Tree"
+copyright = "2026, UQ Tree Contributors"
+author = "UQ Tree Contributors"
+release = "0.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'myst_parser',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode',
+    "myst_parser",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
 ]
 
 # MyST parser configuration
@@ -35,31 +35,37 @@ myst_enable_extensions = [
     "tasklist",
 ]
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'markdown',
+    ".rst": "restructuredtext",
+    ".md": "markdown",
 }
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
-html_title = 'A Decision Tree for Practitioners Needing Uncertainty Quantification'
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
+html_title = "A Decision Tree for Practitioners Needing Uncertainty Quantification"
 
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
-    'papersize': 'letterpaper',
-    'pointsize': '10pt',
-    'preamble': '',
-    'figure_align': 'htbp',
+    "papersize": "letterpaper",
+    "pointsize": "10pt",
+    "preamble": "",
+    "figure_align": "htbp",
 }
 
 latex_documents = [
-    ('index', 'uq-tree.tex', 'A Decision Tree for Practitioners Needing Uncertainty Quantification for Their Deep Learning Project',
-     'UQ Tree Contributors', 'manual'),
+    (
+        "index",
+        "uq-tree.tex",
+        "A Decision Tree for Practitioners Needing Uncertainty Quantification "
+        "for Their Deep Learning Project",
+        "UQ Tree Contributors",
+        "manual",
+    ),
 ]

@@ -60,14 +60,14 @@
 
 ## Software and Tools
 
-- **TensorFlow Probability**: https://www.tensorflow.org/probability
-- **PyTorch Uncertainty**: https://github.com/pytorch/uncertainty
-- **Uncertainty Toolbox**: https://github.com/uncertainty-toolbox/uncertainty-toolbox
-- **NetCal**: Calibration library: https://github.com/fabiankueppers/calibration-framework
+- **TensorFlow Probability**: <https://www.tensorflow.org/probability>
+- **PyTorch Uncertainty**: <https://github.com/pytorch/uncertainty>
+- **Uncertainty Toolbox**: <https://github.com/uncertainty-toolbox/uncertainty-toolbox>
+- **NetCal**: Calibration library: <https://github.com/fabiankueppers/calibration-framework>
 
 ## Online Resources
 
-- **Yarin Gal's Blog**: http://www.cs.ox.ac.uk/people/yarin.gal/website/blog.html
+- **Yarin Gal's Blog**: <http://www.cs.ox.ac.uk/people/yarin.gal/website/blog.html>
 - **Uncertainty in Deep Learning**: PhD Thesis by Yarin Gal
 - **Stanford CS236 Deep Generative Models**: Course materials on uncertainty
 
