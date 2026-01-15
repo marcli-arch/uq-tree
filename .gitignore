@@ -19,8 +19,10 @@ Gemfile.lock
 
 # Sphinx documentation
 docs/_build/
-docs/_static/
-docs/_templates/
+docs/_static/*
+!docs/_static/.gitkeep
+docs/_templates/*
+!docs/_templates/.gitkeep
 
 # PDF build output
 output/
