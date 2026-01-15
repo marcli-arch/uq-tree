@@ -105,6 +105,23 @@ The `.github/workflows/pdf.yml` workflow automatically:
 
 Artifacts can be downloaded from the GitHub Actions workflow run page.
 
+### Release Assets
+
+The `.github/workflows/release.yml` workflow automatically:
+
+1. Triggers when a git tag is pushed (e.g., `v1.0.0`)
+2. Builds the LaTeX and PDF files
+3. Attaches them to the GitHub release as downloadable assets
+
+To create a release with attached PDF and LaTeX files:
+
+```bash
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git push origin v1.0.0
+```
+
+The release will include `uq-tree-v1.0.0.tex` and `uq-tree-v1.0.0.pdf` files.
+
 ## Submitting Changes
 
 1. Create a new branch for your changes

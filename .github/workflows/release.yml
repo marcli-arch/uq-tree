@@ -1,0 +1,93 @@
+name: Build and Attach Release Assets
+
+on:
+  release:
+    types: [created]
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-upload-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+
+      - name: Create combined markdown
+        run: |
+          mkdir -p output
+          # Define the order of sections
+          SECTIONS=(
+            "introduction"
+            "methodology"
+            "decision-tree"
+            "case-studies"
+            "conclusions"
+            "references"
+          )
+          # Combine all markdown files in order
+          > output/paper.md  # Create empty file
+          for section in "${SECTIONS[@]}"; do
+            cat "docs/${section}.md" >> output/paper.md
+            echo -e "\n\n" >> output/paper.md
+          done
+
+      - name: Create metadata file
+        run: |
+          cat > output/metadata.yaml << 'EOF'
+          ---
+          title: "A Decision Tree for Practitioners Needing Uncertainty Quantification for Their Deep Learning Project"
+          author: "UQ Tree Contributors"
+          date: \today
+          geometry: margin=1in
+          fontsize: 11pt
+          documentclass: article
+          ---
+          EOF
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          else
+            VERSION=${{ github.event.release.tag_name }}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Convert Markdown to LaTeX
+        run: |
+          pandoc output/metadata.yaml output/paper.md \
+            -f markdown \
+            -t latex \
+            -o output/uq-tree-${{ steps.get_version.outputs.version }}.tex \
+            --standalone
+
+      - name: Convert Markdown to PDF
+        run: |
+          pandoc output/metadata.yaml output/paper.md \
+            -f markdown \
+            -o output/uq-tree-${{ steps.get_version.outputs.version }}.pdf \
+            --pdf-engine=pdflatex \
+            --variable geometry:margin=1in \
+            --variable fontsize=11pt
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            output/uq-tree-${{ steps.get_version.outputs.version }}.tex
+            output/uq-tree-${{ steps.get_version.outputs.version }}.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

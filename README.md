@@ -27,6 +27,19 @@ make html
 
 The workflow automatically generates a PDF version of the paper from the markdown files. The PDF is available as an artifact in the GitHub Actions workflow runs.
 
+### Releases
+
+When a new release is created (by pushing a git tag like `v1.0.0`), the LaTeX and PDF files are automatically built and attached to the release as downloadable assets. To create a release:
+
+```bash
+git tag -a v1.0.0 -m "Release version 1.0.0"
+git push origin v1.0.0
+```
+
+The release assets will include:
+- `uq-tree-v1.0.0.tex` - LaTeX source file
+- `uq-tree-v1.0.0.pdf` - PDF of the paper
+
 ## Development
 
 ### Pre-commit Hooks
